@@ -1,3 +1,4 @@
+import json
 import os
 
 from googleapiclient.discovery import build
@@ -18,8 +19,7 @@ class Channel:
         self.channel = self.youtube.channels().list(
             id=channel_id, part='snippet,statistics'
         ).execute()
-    print(1)
 
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
-        pass
+        print(json.dumps(self.channel, indent=2, ensure_ascii=False))
