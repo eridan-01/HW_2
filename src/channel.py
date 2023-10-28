@@ -29,3 +29,15 @@ class Channel:
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
         print(json.dumps(self.channel, indent=2, ensure_ascii=False))
+
+    @classmethod
+    def get_service(cls):
+        api_key: str = os.getenv('YT_API_KEY')
+        youtube = build('youtube', 'v3', developerKey=api_key)
+        return youtube
+    
+    def to_json(self, filename):
+        with open(filename, 'w') as f:
+            json.dump(vars(self), f)
+        
+
