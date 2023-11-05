@@ -63,5 +63,3 @@ class Channel:
     def to_json(self, filename):
         with open(filename, 'w') as f:
             json.dump(vars(self), f)
-        
-
