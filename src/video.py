@@ -26,4 +26,15 @@ class Video:
 
     def __str__(self):
         return f'{self.video_title}'
-    
+
+
+class PLVideo(Video):
+
+    def __init__(self, video_id, playlist_id):
+        super().__init__(video_id)
+        self.playlist_videos = self.youtube.playlistItems().list(
+            playlistId=playlist_id,
+            part='contentDetails',
+            maxResults=50,
+            ).execute()
+
