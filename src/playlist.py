@@ -10,6 +10,7 @@ class PlayList:
     api_key: str = os.getenv('YT_API_KEY')
     youtube = build('youtube', 'v3', developerKey=api_key)
 
+
     def __init__(self, playlist_id):
         self.playlist_id = playlist_id
         self.playlist_info = self.youtube.playlists().list(id=playlist_id, part='contentDetails, snippet', ).execute()
@@ -28,8 +29,8 @@ class PlayList:
 
     def print_info(self) -> None:
         """Выводит в консоль информацию о видео."""
-        print(json.dumps(self.playlist_info, indent=2, ensure_ascii=False))
-        print(json.dumps(self.playlist_videos, indent=2, ensure_ascii=False))
+        # print(json.dumps(self.playlist_info, indent=2, ensure_ascii=False))
+        # print(json.dumps(self.playlist_videos, indent=2, ensure_ascii=False))
         print(json.dumps(self.video_response, indent=2, ensure_ascii=False))
 
     @property
@@ -40,3 +41,14 @@ class PlayList:
             duration = isodate.parse_duration(iso_8601_duration)
             total_duration += datetime.timedelta(seconds=duration.total_seconds())
         return total_duration
+
+    def show_best_video(self):
+        max_likes = 0
+        max_likes_video_id = ''
+        for item in self.video_response['items']:
+            video_id = item['id']
+            like_count = int(item['statistics']['likeCount'])
+            if like_count > max_likes:
+                max_likes = like_count
+                max_likes_video_id = video_id
+        return f'https://youtu.be/{max_likes_video_id}'
